@@ -6,12 +6,7 @@ body {
 
     margin: 0;
     padding: 0;
+
     height: 100vh;
     width: 100vw;
-}
-
-#canvasGame {
-    width: 500px;
-    height: 500px;
-    background-color: #000000;
 }
