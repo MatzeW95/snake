@@ -134,7 +134,9 @@ function spawnFood() {
 function drawFood() {
 
     ctx.fillStyle = "red";
-    ctx.fillRect(foodPosX * tileCount + tileSpacing, foodPosY * tileCount + tileSpacing, tileSize, tileSize);
+    ctx.beginPath();
+    ctx.arc(foodPosX * tileCount + 10, foodPosY * tileCount + 10, 9, 0, 2 * Math.PI);
+    ctx.fill();
 }
 
 /*
