@@ -100,6 +100,7 @@ function eatingCheck() {
     if (headX == foodPosX && headY == foodPosY) {
         food = false;
         score++;
+        updateScore();
     }
 }
 
@@ -213,8 +214,15 @@ function resetGame() {
     lastTickDirection = 1;
 
     updateHighscore();
+    updateScore();
 
     drawGame();
+}
+
+//updates the score of game
+function updateScore() {
+
+    document.getElementById("score").innerHTML = score;
 }
 
 //saves new highscore in the session storage variable "highscore"
@@ -260,5 +268,6 @@ window.addEventListener("keydown", function(event) {
 window.onload = function(){
     
     updateHighscore();
+    updateScore();
     drawGame();
 }
