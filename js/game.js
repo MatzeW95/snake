@@ -12,7 +12,7 @@ var lastTickDirection = 1;                      //saves the last game tick direc
 var gameOver = false;                           //sets game over 
 var score = 0;                                  //saves the game score
 var lastX = [];                                 //saves snake heads last x position for the body parts
-var lastY = [];                                 //saves snake heads last y position for the body parts 
+var lastY = [];                                 //saves snake heads last y position for the body parts
 
 const canvas = document.getElementById("canvasGame"); 
 const ctx = canvas.getContext("2d");
@@ -198,6 +198,9 @@ function tailCheck() {
 - starts new game
 */
 function resetGame() {
+
+    saveHighscore(score);
+
     speed = 2;
     headX = 10;
     headY = 10;
@@ -209,7 +212,32 @@ function resetGame() {
     score = 0;
     lastTickDirection = 1;
 
+    updateHighscore();
+
     drawGame();
+}
+
+//saves new highscore in the session storage variable "highscore"
+function saveHighscore(score) {
+
+    let highscore = sessionStorage.getItem("highscore");
+
+    if(score > highscore) {
+        sessionStorage.setItem("highscore", score);
+    }
+}
+
+//updates the highscore based on the session storage
+function updateHighscore() {
+
+    let highscore = sessionStorage.getItem("highscore");
+
+    if(highscore == null) {
+        
+        highscore = 0;
+    }
+
+    document.getElementById("highscore").innerHTML = highscore;
 }
 
 /* 
@@ -224,6 +252,12 @@ window.addEventListener("keydown", function(event) {
         resetGame();
     }
 });
+
+//updates the highscore if there is already a highscore in the sesssion storage
+window.onload = function(){
+    
+    updateHighscore();
+}
 
 //starts game on site loading
 drawGame();
