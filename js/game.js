@@ -1,22 +1,26 @@
+var speed = 2;                                  //tick speed of the game
+var tileCount = 20;                             //game field size in x and y 
+var tileSize = 18;                              //width and height of the displayed objects 
+var tileSpacing = 1;                            //margin of each element inside the game field
+var headX = 10;                                 //x position of the snake head
+var headY = 10;                                 //y position of the snake head 
+var food = true;                                //sets if a new food is needed
+var foodPosX = Math.floor(Math.random() * 20);  //x position of the first food
+var foodPosY = Math.floor(Math.random() * 20);  //y position of the first food
+var currentDirection = 1;                       //saves the last user input direction
+var lastTickDirection = 1;                      //saves the last game tick direchtion
+var gameOver = false;                           //sets game over 
+var score = 0;                                  //saves the game score
+var lastX = [];                                 //saves snake heads last x position for the body parts
+var lastY = [];                                 //saves snake heads last y position for the body parts 
+
 const canvas = document.getElementById("canvasGame"); 
 const ctx = canvas.getContext("2d");
 
-var speed = 2;
-var tileCount = 20;
-var tileSize = 18;
-var tileSpacing = 1; 
-var headX = 10;
-var headY = 10;
-var food = true;
-var foodPosX = Math.floor(Math.random() * 20);
-var foodPosY = Math.floor(Math.random() * 20);
-var currentDirection = 1;
-var gameOver = false;
-var score = 0;
-var lastX = [];
-var lastY = [];
-var lastTickDirection = 1;
-
+/*
+Game logic for each game tick
+while checking if the gameOver variable has changed
+*/
 function drawGame() {
 
     if(gameOver == false) {
@@ -33,6 +37,7 @@ function drawGame() {
     }
 }
 
+//clears the screen so it is only a background
 function clearScreen() {
 
     if(gameOver == false) {
@@ -42,47 +47,54 @@ function clearScreen() {
     }
 }
 
+/*
+- first saves the last x and y postion in the lastX and lastY array at the first position
+- changes the snake head movment to the input direction
+- saves the new direction for that game tick in the lastTickDirection, so you can't switch in one tick to different
+directions. 
+Example: Your are moving left (so you can't go right because you would move into yourself)
+but if you would press up and right all while in one game tick you could just move over yourself because if you 
+would move upwards you couldn't move down so you would just "skip" the abord condition
+- drawing the snake head
+*/
 function drawSnakeHead(direction) {
 
-    if(gameOver == false) {
+    lastX.unshift(headX);
+    lastY.unshift(headY);
 
-        lastX.unshift(headX);
-        lastY.unshift(headY);
-
-        if(direction == 1) {
-            headY--;
-        }
-        else if(direction == 2) {
-            headY++;
-        }
-        else if(direction == 3) {
-            headX--;
-        }
-        else if(direction == 4) {
-            headX++;
-        }
-
-        lastTickDirection = direction;
-
-    console.log("Snake: " + headX + "/" + headY);
-
-        ctx.fillStyle = "green";
-        ctx.fillRect(headX * tileCount + tileSpacing, headY * tileCount + tileSpacing, tileSize, tileSize);
+    if(direction == 1) {
+        headY--;
     }
+    else if(direction == 2) {
+        headY++;
+    }
+    else if(direction == 3) {
+        headX--;
+    }
+    else if(direction == 4) {
+        headX++;
+    }
+
+    lastTickDirection = direction;
+
+    ctx.fillStyle = "green";
+    ctx.fillRect(headX * tileCount + tileSpacing, headY * tileCount + tileSpacing, tileSize, tileSize);
 }
 
+//drawing the snake body parts one by one for as many times you scored (scored = times eaten food)
 function drawSnakeBody() {
 
-    if(gameOver == false) {
+    for (let i = 0; i < score; i++) {
 
-        for (let i = 0; i < score; i++) {
-
-            ctx.fillStyle = "orange";
-            ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
-        }
+        ctx.fillStyle = "orange";
+        ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
     }
 }
 
+/*
+- checks if the the snakes head and the food is on the same postion
+- if true -> the food flag will be changed so the spawnFood function will "spawn" a new food
+*/
 function eatingCheck() {
 
     if (headX == foodPosX && headY == foodPosY) {
@@ -92,6 +104,10 @@ function eatingCheck() {
     }
 }
 
+/*
+- places a new food on a random x and y postion inside the game field
+- changes the food flag so there is one active food on the game field
+*/
 function spawnFood() {
 
     if(food == false) {
@@ -104,12 +120,21 @@ function spawnFood() {
     }
 }
 
+//drawing the food
 function drawFood() {
 
     ctx.fillStyle = "red";
     ctx.fillRect(foodPosX * tileCount + tileSpacing, foodPosY * tileCount + tileSpacing, tileSize, tileSize);
 }
 
+/*
+- the function only gets called via the eventListener
+- it checks if the user input is "allowed" for the next move so it compares the last game tick 
+direction with the user input
+Example: We are moving upwards but the player wants to move down (We can't move over ourself)
+so it in "illegal" move
+- changes the variable currentDirection for the next game tick move
+*/
 function changeDirection(direction) {
 
     if (direction == "ArrowUp" && lastTickDirection != 2) {
@@ -126,12 +151,16 @@ function changeDirection(direction) {
     }
 }
 
+/* 
+- checks if the head is in this game tick out of bounds
+- if true -> changes the gameOver variable to true -> so the game will stop in the next game tick
+- recoulers the snake tail beacuse of the position it checks the condition it would move for one more position
+- recoulers the "mistake" where the border was hit
+*/
 function borderCheck() {
 
     if(headX == -1 || headX == 20 || headY == -1 || headY == 20) {
         gameOver = true;
-        console.log("Game over");
-
 
         ctx.fillStyle = "orange";
         ctx.fillRect(lastX[score] * tileCount + tileSpacing, lastY[score] * tileCount + tileSpacing, tileSize, tileSize);
@@ -143,6 +172,12 @@ function borderCheck() {
     }
 }
 
+/* 
+- checks if the head is in this game tick in the same position as a body part
+- if true -> changes the gameOver variable to true -> so the game will stop in the next game tick
+- recoulers the snake tail beacuse of the position it checks the condition it would move for one more position
+- recoulers the "mistake" where the border was hit
+*/
 function tailCheck() {
 
     for (let i = 0; i < score; i++) {
@@ -156,12 +191,15 @@ function tailCheck() {
             
             ctx.fillStyle = "Blue";
             ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
-
-            console.log("Game over"); 
         }
     }
 }
 
+/* 
+- function is only called on user input
+- resets all game start variables
+- starts new game
+*/
 function resetGame() {
     speed = 2;
     headX = 10;
@@ -177,6 +215,9 @@ function resetGame() {
     drawGame();
 }
 
+/* 
+Event listener for moving the snake and resetting the game
+*/
 window.addEventListener("keydown", function(event) {
 
     if(event.key == "ArrowUp" || event.key == "ArrowDown" || event.key == "ArrowLeft" || event.key == "ArrowRight") {
@@ -187,4 +228,5 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
+//starts game on site loading
 drawGame();
