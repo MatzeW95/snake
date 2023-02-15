@@ -100,7 +100,6 @@ function eatingCheck() {
     if (headX == foodPosX && headY == foodPosY) {
         food = false;
         score++;
-        console.log("SCORE: " + score);
     }
 }
 
@@ -113,8 +112,6 @@ function spawnFood() {
     if(food == false) {
         foodPosX = Math.floor(Math.random() * 20);
         foodPosY = Math.floor(Math.random() * 20); 
-
-        console.log("Food: " + foodPosX + "/" + foodPosY);
 
         food = true;
     }
