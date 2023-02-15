@@ -13,6 +13,7 @@ var gameOver = false;                           //sets game over
 var score = 0;                                  //saves the game score
 var lastX = [];                                 //saves snake heads last x position for the body parts
 var lastY = [];                                 //saves snake heads last y position for the body parts
+var timer = 0;
 
 const canvas = document.getElementById("canvasGame"); 
 const ctx = canvas.getContext("2d");
@@ -33,7 +34,7 @@ function drawGame() {
         tailCheck();
         eatingCheck();
         spawnFood();
-        setTimeout(drawGame, 1000 / speed);
+        timer = setTimeout(drawGame, 1000 / speed);
     }
 }
 
@@ -210,6 +211,8 @@ function tailCheck() {
 function resetGame() {
 
     saveHighscore(score);
+
+    clearTimeout(timer);
 
     speed = 2;
     headX = 10;
