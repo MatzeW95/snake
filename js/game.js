@@ -222,7 +222,7 @@ function resetGame() {
 //updates the score of game
 function updateScore() {
 
-    document.getElementById("score").innerHTML = score;
+    document.getElementById("score").innerHTML = "Score: " + score;
 }
 
 //saves new highscore in the session storage variable "highscore"
@@ -245,7 +245,7 @@ function updateHighscore() {
         highscore = 0;
     }
 
-    document.getElementById("highscore").innerHTML = highscore;
+    document.getElementById("highscore").innerHTML = "Highscore: " + highscore;
 }
 
 /* 
@@ -263,6 +263,7 @@ window.addEventListener("keydown", function(event) {
 
 /*
 - updates the highscore if there is already a highscore in the sesssion storage
+- updates game score
 - starts the game
 */
 window.onload = function(){
