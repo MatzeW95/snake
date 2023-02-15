@@ -185,7 +185,6 @@ function borderCheck() {
 /* 
 - checks if the head is in this game tick in the same position as a body part
 - if true -> changes the gameOver variable to true -> so the game will stop in the next game tick
-- recoulers the snake tail beacuse of the position it checks the condition it would move for one more position
 - recoulers the "mistake" where the border was hit
 */
 function tailCheck() {
@@ -194,10 +193,6 @@ function tailCheck() {
         
         if (headX == lastX[i] && headY == lastY[i]) {
             gameOver = true;
-
-            ctx.fillStyle = "orange";
-            ctx.fillRect(lastX[i+1] * tileCount + tileSpacing, lastY[i+1] * tileCount + tileSpacing, tileSize, tileSize);
-
             
             ctx.fillStyle = "Blue";
             ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
