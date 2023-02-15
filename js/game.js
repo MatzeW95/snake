@@ -14,6 +14,11 @@ var score = 0;                                  //saves the game score
 var lastX = [];                                 //saves snake heads last x position for the body parts
 var lastY = [];                                 //saves snake heads last y position for the body parts
 var timer;                                      //timer for game loop
+var colorHead = "#00401A";                             //Snake head color
+var colorBody = "#008000";                             //Snake body color
+var colorFood = "#00401A";                             //Food color
+var colorBackground = "#a89070";                       //Background color
+var colorError = "#CE2029";                      //Error color (Example: hitting wall)
 
 const canvas = document.getElementById("canvasGame"); 
 const ctx = canvas.getContext("2d");
@@ -43,7 +48,7 @@ function clearScreen() {
 
     if(gameOver == false) {
 
-        ctx.fillStyle = "black";
+        ctx.fillStyle = colorBackground;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
     }
 }
@@ -78,7 +83,7 @@ function drawSnakeHead(direction) {
 
     lastTickDirection = direction;
 
-    ctx.fillStyle = "green";
+    ctx.fillStyle = colorHead;
     ctx.fillRect(headX * tileCount + tileSpacing, headY * tileCount + tileSpacing, tileSize, tileSize);
 }
 
@@ -87,7 +92,7 @@ function drawSnakeBody() {
 
     for (let i = 0; i < score; i++) {
 
-        ctx.fillStyle = "orange";
+        ctx.fillStyle = colorBody;
         ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
     }
 }
@@ -134,7 +139,7 @@ function spawnFood() {
 //drawing the food
 function drawFood() {
 
-    ctx.fillStyle = "red";
+    ctx.fillStyle = colorFood;
     ctx.beginPath();
     ctx.arc(foodPosX * tileCount + 10, foodPosY * tileCount + 10, 9, 0, 2 * Math.PI);
     ctx.fill();
@@ -175,11 +180,11 @@ function borderCheck() {
     if(headX == -1 || headX == 20 || headY == -1 || headY == 20) {
         gameOver = true;
 
-        ctx.fillStyle = "orange";
+        ctx.fillStyle = colorBody;
         ctx.fillRect(lastX[score] * tileCount + tileSpacing, lastY[score] * tileCount + tileSpacing, tileSize, tileSize);
 
         
-        ctx.fillStyle = "Blue";
+        ctx.fillStyle = colorError;
         ctx.fillRect(lastX[0] * tileCount + tileSpacing, lastY[0] * tileCount + tileSpacing, tileSize, tileSize);
 
     }
@@ -197,7 +202,7 @@ function tailCheck() {
         if (headX == lastX[i] && headY == lastY[i]) {
             gameOver = true;
             
-            ctx.fillStyle = "Blue";
+            ctx.fillStyle = colorError;
             ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
         }
     }
