@@ -162,11 +162,29 @@ function tailCheck() {
     }
 }
 
+function resetGame() {
+    speed = 2;
+    headX = 10;
+    headY = 10;
+    food = true;
+    foodPosX = Math.floor(Math.random() * 20);
+    foodPosY = Math.floor(Math.random() * 20);
+    currentDirection = 1;
+    gameOver = false;
+    score = 0;
+    lastTickDirection = 1;
+
+    drawGame();
+}
+
 window.addEventListener("keydown", function(event) {
 
     if(event.key == "ArrowUp" || event.key == "ArrowDown" || event.key == "ArrowLeft" || event.key == "ArrowRight") {
         changeDirection(event.key);
-    }  
+    }
+    else if(event.code == "Space") {
+        resetGame();
+    }
 });
 
 drawGame();
