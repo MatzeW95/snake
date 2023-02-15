@@ -253,11 +253,12 @@ window.addEventListener("keydown", function(event) {
     }
 });
 
-//updates the highscore if there is already a highscore in the sesssion storage
+/*
+- updates the highscore if there is already a highscore in the sesssion storage
+- starts the game
+*/
 window.onload = function(){
     
     updateHighscore();
+    drawGame();
 }
-
-//starts game on site loading
-drawGame();
