@@ -15,6 +15,7 @@ var gameOver = false;
 var score = 0;
 var lastX = [];
 var lastY = [];
+var lastTickDirection = 1;
 
 function drawGame() {
 
@@ -60,6 +61,9 @@ function drawSnakeHead(direction) {
         else if(direction == 4) {
             headX++;
         }
+
+        lastTickDirection = direction;
+
     console.log("Snake: " + headX + "/" + headY);
 
         ctx.fillStyle = "green";
@@ -108,16 +112,16 @@ function drawFood() {
 
 function changeDirection(direction) {
 
-    if (direction == "ArrowUp" && currentDirection != 2) {
+    if (direction == "ArrowUp" && lastTickDirection != 2) {
         currentDirection = 1;
     }
-    else if(direction == "ArrowDown" && currentDirection != 1) {
+    else if(direction == "ArrowDown" && lastTickDirection != 1) {
         currentDirection = 2;
     }
-    else if(direction == "ArrowLeft" && currentDirection != 4) {
+    else if(direction == "ArrowLeft" && lastTickDirection != 4) {
         currentDirection = 3;
     }
-    else if (direction == "ArrowRight" && currentDirection != 3) {
+    else if (direction == "ArrowRight" && lastTickDirection != 3) {
         currentDirection = 4;
     }
 }
