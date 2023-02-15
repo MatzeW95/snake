@@ -172,6 +172,7 @@ function changeDirection(direction) {
 /* 
 - checks if the head is in this game tick out of bounds
 - if true -> changes the gameOver variable to true -> so the game will stop in the next game tick
+- if new highscore is reached -> highscore saved in session storage
 - recoulers the snake tail beacuse of the position it checks the condition it would move for one more position
 - recoulers the "mistake" where the border was hit
 */
@@ -195,6 +196,7 @@ function borderCheck() {
 /* 
 - checks if the head is in this game tick in the same position as a body part
 - if true -> changes the gameOver variable to true -> so the game will stop in the next game tick
+- if new highscore is reached -> highscore saved in session storage
 - recoulers the "mistake" where the border was hit
 */
 function tailCheck() {
