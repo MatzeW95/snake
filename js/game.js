@@ -180,6 +180,8 @@ function borderCheck() {
     if(headX == -1 || headX == 20 || headY == -1 || headY == 20) {
         gameOver = true;
 
+        updateHighscore();
+
         ctx.fillStyle = colorBody;
         ctx.fillRect(lastX[score] * tileCount + tileSpacing, lastY[score] * tileCount + tileSpacing, tileSize, tileSize);
 
@@ -200,7 +202,10 @@ function tailCheck() {
     for (let i = 0; i < score; i++) {
         
         if (headX == lastX[i] && headY == lastY[i]) {
+            
             gameOver = true;
+
+            updateHighscore();
             
             ctx.fillStyle = colorError;
             ctx.fillRect(lastX[i] * tileCount + tileSpacing, lastY[i] * tileCount + tileSpacing, tileSize, tileSize);
@@ -229,8 +234,7 @@ function resetGame() {
     gameOver = false;
     score = 0;
     lastTickDirection = 1;
-
-    updateHighscore();
+ 
     updateScore();
 
     drawGame();
