@@ -106,6 +106,7 @@ function eatingCheck() {
 
 /*
 - places a new food on a random x and y postion inside the game field
+- checks position of the whole snake so food can't spawn on the same position as the snake
 - changes the food flag so there is one active food on the game field
 */
 function spawnFood() {
@@ -113,6 +114,17 @@ function spawnFood() {
     if(food == false) {
         foodPosX = Math.floor(Math.random() * 20);
         foodPosY = Math.floor(Math.random() * 20); 
+
+        if (headX == foodPosX && headY == foodPosY) {
+            spawnFood();
+        }
+
+        for (let i = 0; i < score; i++) {
+            
+            if (lastX[i] == foodPosX && lastY[i] == foodPosY) {
+                spawnFood();
+            }
+        }
 
         food = true;
     }
